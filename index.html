@@ -12,9 +12,29 @@
         <h1>Master 3D - Suivi des Commandes</h1>
     </header>
 
+    <!-- Lien vers l'espace Admin -->
+<a href="#" id="adminSpace">Admin Space</a>
+
     <!-- Page publique pour consulter une commande -->
     <section id="public">
         <h2>  Consulter une commande</h2>
+
+        <!-- Section Admin (initialement cachée) -->
+<section id="admin" class="hidden">
+    <h2>Interface Admin - Gestion des Commandes</h2>
+    <!-- Formulaire pour entrer le mot de passe Admin -->
+    <form id="adminLoginForm">
+        <label for="adminPassword">Mot de passe Admin :</label>
+        <input type="password" id="adminPassword" required>
+        <button type="submit">Se connecter</button>
+    </form>
+    <!-- Panneau Admin (initialement caché) -->
+    <div id="adminPanel" class="hidden">
+        <h3>Ajouter ou modifier une commande</h3>
+        <!-- Formulaire pour gérer les commandes -->
+    </div>
+</section>
+
         <form id="orderForm">
             <label for="orderNumber">Numéro de commande (3 chiffres) :</label>
             <input type="text" id="orderNumber" maxlength="3" required>
