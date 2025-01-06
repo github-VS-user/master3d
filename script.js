@@ -1,93 +1,57 @@
-// Fonction pour vérifier le mot de passe Admin
-document.getElementById('adminLoginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const password = document.getElementById('adminPassword').value;
-    const correctPassword = 'adminadmin123'; // Mot de passe Admin
-
-    if (password === correctPassword) {
-        document.getElementById('adminPanel').classList.remove('hidden');
-        document.getElementById('adminLoginForm').classList.add('hidden');
-    } else {
-        alert('Mot de passe incorrect');
-    }
-});
-
-// Fonction pour afficher les détails de la commande publique
-document.getElementById('orderForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const orderNumber = document.getElementById('orderNumber').value;
-    fetchOrderDetails(orderNumber);
-});
-
-// Fonction simulée pour récupérer les détails d'une commande (ici, on utilise un fichier JSON)
+// Fonction pour récupérer les détails d'une commande
 function fetchOrderDetails(orderNumber) {
-    fetch('https://github-vs-user.github.io/master3d/commandes.json')
-        .then(response => response.json())
-        .then(data => {
-            const order = data.orders.find(order => order.orderNumber === orderNumber);
+  // URL du fichier JSON
+  const jsonUrl = 'https://github-vs-user.github.io/master3d/commandes.json';
 
-            if (order) {
-                document.getElementById('status').textContent = order.status;
-                document.getElementById('printer').textContent = order.printer;
-                document.getElementById('distributor').textContent = order.distributor;
-                document.getElementById('recipient').textContent = order.recipient;
-                document.getElementById('objectLink').href = order.objectLink;
-                document.getElementById('orderDetails').classList.remove('hidden');
-            } else {
-                alert('Commande non trouvée');
-            }
-        })
-        .catch(error => {
-            console.error('Erreur lors de la récupération des données:', error);
-            alert('Une erreur est survenue');
-        });
+  fetch(jsonUrl)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Données chargées :', data.orders); // Debug pour afficher le contenu du JSON
+      console.log('Numéro de commande recherché :', orderNumber); // Debug pour vérifier l'entrée utilisateur
+
+      // Chercher la commande correspondant au numéro donné
+      const order = data.orders.find(order => order.id === orderNumber);
+
+      if (order) {
+        // Mise à jour des éléments HTML avec les détails de la commande
+        document.getElementById('status').textContent = order.status;
+        document.getElementById('printer').textContent = order.impression;
+        document.getElementById('distributor').textContent = order.distribution;
+        document.getElementById('recipient').textContent = order.destinataire;
+        document.getElementById('objectLink').href = order.lienObjet;
+        document.getElementById('objectLink').textContent = "Voir l'objet";
+
+        // Afficher la section des détails
+        document.getElementById('orderDetails').classList.remove('hidden');
+      } else {
+        // Alerte si la commande n'est pas trouvée
+        alert('Commande non trouvée. Vérifiez le numéro de commande.');
+      }
+    })
+    .catch(error => {
+      console.error('Erreur lors du chargement des commandes:', error);
+      alert('Une erreur est survenue lors de la récupération des commandes.');
+    });
 }
 
-// Fonction pour enregistrer une commande (Admin)
-document.getElementById('orderFormAdmin').addEventListener('submit', function(event) {
-    event.preventDefault();
+// Écouter l'événement de soumission du formulaire
+document.getElementById('orderForm').addEventListener('submit', function (event) {
+  event.preventDefault(); // Empêcher le rechargement de la page
 
-    const orderNumber = document.getElementById('orderNumberAdmin').value;
-    const status = document.getElementById('statusAdmin').value;
-    const printer = document.getElementById('printerAdmin').value;
-    const distributor = document.getElementById('distributorAdmin').value;
-    const recipient = document.getElementById('recipientAdmin').value;
-    const objectLink = document.getElementById('objectLinkAdmin').value;
+  // Récupérer le numéro de commande saisi par l'utilisateur
+  const orderNumber = document.getElementById('orderNumber').value.trim();
 
-    const newOrder = {
-        orderNumber,
-        status,
-        printer,
-        distributor,
-        recipient,
-        objectLink
-    };
+  // Vérifier que le champ n'est pas vide
+  if (orderNumber === '') {
+    alert('Veuillez entrer un numéro de commande.');
+    return;
+  }
 
-    saveOrder(newOrder);
+  // Appeler la fonction pour chercher les détails de la commande
+  fetchOrderDetails(orderNumber);
 });
-
-// Fonction pour sauvegarder une commande (ajouter ou modifier dans le fichier JSON)
-function saveOrder(order) {
-    fetch('https://github-vs-user.github.io/master3d/commandes.json')
-        .then(response => response.json())
-        .then(data => {
-            const existingOrderIndex = data.orders.findIndex(o => o.orderNumber === order.orderNumber);
-
-            if (existingOrderIndex > -1) {
-                // Mise à jour de la commande existante
-                data.orders[existingOrderIndex] = order;
-            } else {
-                // Ajout d'une nouvelle commande
-                data.orders.push(order);
-            }
-
-            // Sauvegarde dans le fichier JSON (dans un environnement réel, on enverrait une requête POST à un serveur pour mettre à jour les données)
-            alert('Commande enregistrée !');
-        })
-        .catch(error => {
-            console.error('Erreur lors de la sauvegarde de la commande:', error);
-            alert('Une erreur est survenue');
-        });
-}
