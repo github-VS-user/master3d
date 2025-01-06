@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master 3D - Gestion des Commandes</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Master 3D - Suivi des Commandes</h1>
+    </header>
+
+    <!-- Page publique pour consulter une commande -->
+    <section id="public">
+        <h2>Consulter une commande</h2>
+        <form id="orderForm">
+            <label for="orderNumber">Numéro de commande (3 chiffres) :</label>
+            <input type="text" id="orderNumber" maxlength="3" required>
+            <button type="submit">Consulter</button>
+        </form>
+        <div id="orderDetails" class="hidden">
+            <h3>Détails de la commande</h3>
+            <p><strong>Statut :</strong> <span id="status"></span></p>
+            <p><strong>Responsable de l'impression :</strong> <span id="printer"></span></p>
+            <p><strong>Responsable de la distribution :</strong> <span id="distributor"></span></p>
+            <p><strong>Destinataire :</strong> <span id="recipient"></span></p>
+            <p><strong>Lien de l'objet :</strong> <a href="" id="objectLink" target="_blank">Voir l'objet</a></p>
+        </div>
+    </section>
+
+    <!-- Page Admin -->
+    <section id="admin" class="hidden">
+        <h2>Interface Admin - Gestion des Commandes</h2>
+        <form id="adminLoginForm">
+            <label for="adminPassword">Mot de passe Admin :</label>
+            <input type="password" id="adminPassword" required>
+            <button type="submit">Se connecter</button>
+        </form>
+        <div id="adminPanel" class="hidden">
+            <h3>Ajouter ou modifier une commande</h3>
+            <form id="orderFormAdmin">
+                <label for="orderNumberAdmin">Numéro de commande :</label>
+                <input type="text" id="orderNumberAdmin" maxlength="3" required>
+                <label for="statusAdmin">Statut :</label>
+                <select id="statusAdmin" required>
+                    <option value="En Attente">En Attente</option>
+                    <option value="En Cours">En Cours</option>
+                    <option value="Imprimé">Imprimé</option>
+                    <option value="En Livraison">En Livraison</option>
+                    <option value="Livré">Livré</option>
+                </select>
+                <label for="printerAdmin">Responsable de l'impression :</label>
+                <select id="printerAdmin" required>
+                    <option value="Dario">Dario</option>
+                    <option value="Abel">Abel</option>
+                </select>
+                <label for="distributorAdmin">Responsable de la distribution :</label>
+                <select id="distributorAdmin" required>
+                    <option value="Dario">Dario</option>
+                    <option value="Oscar">Oscar</option>
+                    <option value="Abel">Abel</option>
+                </select>
+                <label for="recipientAdmin">Destinataire :</label>
+                <input type="text" id="recipientAdmin" required>
+                <label for="objectLinkAdmin">Lien de l'objet :</label>
+                <input type="url" id="objectLinkAdmin" required>
+                <button type="submit">Enregistrer</button>
+            </form>
+        </div>
+    </section>
+</body>
+</html>
