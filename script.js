@@ -23,7 +23,7 @@ document.getElementById('orderForm').addEventListener('submit', function(event) 
 
 // Fonction simulée pour récupérer les détails d'une commande (ici, on utilise un fichier JSON)
 function fetchOrderDetails(orderNumber) {
-    fetch('https://github-vs-user.github.io/admin3d/commandes.json')
+    fetch('https://github-vs-user.github.io/master3d/commandes.json')
         .then(response => response.json())
         .then(data => {
             const order = data.orders.find(order => order.orderNumber === orderNumber);
