@@ -70,7 +70,7 @@ document.getElementById('orderFormAdmin').addEventListener('submit', function(ev
 
 // Fonction pour sauvegarder une commande (ajouter ou modifier dans le fichier JSON)
 function saveOrder(order) {
-    fetch('commandes.json')
+    fetch('https://github-vs-user.github.io/master3d/commandes.json')
         .then(response => response.json())
         .then(data => {
             const existingOrderIndex = data.orders.findIndex(o => o.orderNumber === order.orderNumber);
