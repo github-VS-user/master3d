@@ -75,3 +75,52 @@ document.getElementById('orderDetails').addEventListener('click', function (even
     }
   }
 });
+
+// Load orders into the admin panel table
+function loadAdminOrders() {
+  fetch(jsonUrl)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      const tableBody = document.querySelector('#ordersTable tbody');
+      tableBody.innerHTML = ''; // Clear previous data
+
+      data.orders.forEach(order => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${order.id}</td>
+          <td contenteditable="true" class="editable">${order.status}</td>
+          <td>${order.impression}</td>
+          <td>${order.distribution}</td>
+          <td>${order.destinataire}</td>
+          <td><a href="${order.lienObjet}" target="_blank">Voir l'objet</a></td>
+        `;
+        tableBody.appendChild(row);
+      });
+
+      // Add event listener for inline editing
+      tableBody.addEventListener('input', event => {
+        if (event.target.classList.contains('editable')) {
+          const row = event.target.closest('tr');
+          const orderId = row.children[0].textContent.trim();
+          const newStatus = event.target.textContent.trim();
+          console.log(`Order ID ${orderId} status updated to: ${newStatus}`);
+          alert(`Statut de la commande ${orderId} mis à jour localement.`);
+        }
+      });
+    })
+    .catch(error => {
+      console.error('Erreur lors du chargement des commandes:', error);
+      alert('Impossible de charger les commandes.');
+    });
+}
+
+// Load orders when admin panel is displayed
+document.getElementById('adminSpace').addEventListener('click', () => {
+  loadAdminOrders();
+});
+
