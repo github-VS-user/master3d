@@ -1,24 +1,13 @@
 // Fonction pour récupérer les détails d'une commande
 function fetchOrderDetails(orderNumber) {
-  // URL du fichier JSON
   const jsonUrl = 'https://github-vs-user.github.io/master3d/commandes.json';
 
   fetch(jsonUrl)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP: ${response.status}`);
-      }
-      return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
-      console.log('Données chargées :', data.orders); // Debug pour afficher le contenu du JSON
-      console.log('Numéro de commande recherché :', orderNumber); // Debug pour vérifier l'entrée utilisateur
-
-      // Chercher la commande correspondant au numéro donné
       const order = data.orders.find(order => order.id === orderNumber);
 
       if (order) {
-        // Mise à jour des éléments HTML avec les détails de la commande
         document.getElementById('status').textContent = order.status;
         document.getElementById('printer').textContent = order.impression;
         document.getElementById('distributor').textContent = order.distribution;
@@ -26,53 +15,45 @@ function fetchOrderDetails(orderNumber) {
         document.getElementById('objectLink').href = order.lienObjet;
         document.getElementById('objectLink').textContent = "Voir l'objet";
 
-        // Afficher la section des détails
         document.getElementById('orderDetails').classList.remove('hidden');
+        document.getElementById('modifyStatus').classList.remove('hidden');
       } else {
-        // Alerte si la commande n'est pas trouvée
-        alert('Commande non trouvée. Vérifiez le numéro de commande.');
+        alert('Commande non trouvée.');
       }
     })
     .catch(error => {
-      console.error('Erreur lors du chargement des commandes:', error);
-      alert('Une erreur est survenue lors de la récupération des commandes.');
+      console.error('Erreur:', error);
+      alert('Une erreur est survenue.');
     });
 }
 
-// Écouter l'événement de soumission du formulaire
+// Écouter le formulaire pour consulter une commande
 document.getElementById('orderForm').addEventListener('submit', function (event) {
-  event.preventDefault(); // Empêcher le rechargement de la page
-
-  // Récupérer le numéro de commande saisi par l'utilisateur
+  event.preventDefault();
   const orderNumber = document.getElementById('orderNumber').value.trim();
-
-  // Vérifier que le champ n'est pas vide
-  if (orderNumber === '') {
-    alert('Veuillez entrer un numéro de commande.');
-    return;
-  }
-
-  // Appeler la fonction pour chercher les détails de la commande
   fetchOrderDetails(orderNumber);
 });
 
-// Gestion de la connexion Admin
-document.getElementById('adminLoginForm').addEventListener('submit', function (event) {
-  event.preventDefault(); // Empêche le rechargement de la page
+// Modifier le statut d'une commande
+document.getElementById('saveStatus').addEventListener('click', function () {
+  const newStatus = document.getElementById('newStatus').value;
+  alert(`Le statut a été modifié à : ${newStatus}`);
+});
 
-  // Récupérer le mot de passe saisi par l'utilisateur
-  const password = document.getElementById('adminPassword').value.trim();
+// Gérer l'accès à l'Admin Space
+document.getElementById('adminSpace').addEventListener('click', function () {
+  document.getElementById('adminLoginForm').classList.remove('hidden');
+});
 
-  // Mot de passe Admin à vérifier
+// Vérifier le mot de passe Admin
+document.getElementById('loginButton').addEventListener('click', function () {
   const adminPassword = 'master3DAdmin';
+  const enteredPassword = document.getElementById('adminPassword').value.trim();
 
-  // Vérification du mot de passe
-  if (password === adminPassword) {
-    // Si le mot de passe est correct, afficher le panneau Admin
+  if (enteredPassword === adminPassword) {
+    document.getElementById('adminLoginForm').classList.add('hidden');
     document.getElementById('adminPanel').classList.remove('hidden');
-    document.getElementById('adminLoginForm').classList.add('hidden'); // Cacher le formulaire de connexion
   } else {
-    // Si le mot de passe est incorrect, afficher une alerte
     alert('Mot de passe incorrect.');
   }
 });
