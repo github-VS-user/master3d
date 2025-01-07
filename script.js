@@ -1,5 +1,31 @@
 // URL du fichier JSON
 const jsonUrl = 'https://github-vs-user.github.io/master3d/commandes.json';
+const serverUrl = 'http://localhost:3000'; // Update with your server's URL
+
+// Function to update order status on the server
+function updateOrderStatus(orderId, newStatus) {
+  fetch(`${serverUrl}/update-order`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id: orderId, status: newStatus }),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to update order.');
+      }
+      return response.text();
+    })
+    .then(message => {
+      console.log(message);
+      alert(`Order ${orderId} status updated successfully.`);
+    })
+    .catch(error => {
+      console.error('Error updating order:', error);
+      alert('Failed to update order.');
+    });
+}
 
 // Gestion de l'affichage de l'espace Admin
 document.getElementById('adminSpace').addEventListener('click', function () {
@@ -65,17 +91,6 @@ document.getElementById('orderForm').addEventListener('submit', function (event)
   fetchOrderDetails(orderNumber);
 });
 
-// Modifier le statut sans Admin
-document.getElementById('orderDetails').addEventListener('click', function (event) {
-  if (event.target.id === 'status') {
-    const newStatus = prompt('Entrez le nouveau statut :');
-    if (newStatus) {
-      document.getElementById('status').textContent = newStatus;
-      alert('Statut mis à jour localement.');
-    }
-  }
-});
-
 // Load orders into the admin panel table
 function loadAdminOrders() {
   fetch(jsonUrl)
@@ -108,8 +123,7 @@ function loadAdminOrders() {
           const row = event.target.closest('tr');
           const orderId = row.children[0].textContent.trim();
           const newStatus = event.target.textContent.trim();
-          console.log(`Order ID ${orderId} status updated to: ${newStatus}`);
-          alert(`Statut de la commande ${orderId} mis à jour localement.`);
+          updateOrderStatus(orderId, newStatus); // Use the server-based function
         }
       });
     })
@@ -123,4 +137,3 @@ function loadAdminOrders() {
 document.getElementById('adminSpace').addEventListener('click', () => {
   loadAdminOrders();
 });
-
