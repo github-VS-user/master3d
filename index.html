@@ -33,7 +33,7 @@
     </section>
 
     <!-- Section Connexion Admin -->
-    <section id="loginSection" class="hidden">
+     <section id="loginSection" class="hidden"> 
       <h3>Connexion Admin</h3>
       <form id="adminLoginForm">
         <label for="adminPassword">Mot de passe :</label>
@@ -42,13 +42,26 @@
       </form>
     </section>
 
-    <!-- Section Admin Panel -->
     <section id="adminPanel" class="hidden">
-      <h2>Admin Panel</h2>
-      <p>Bienvenue dans l'interface administrateur.</p>
-      <!-- Ajouter des fonctionnalités pour l'admin ici -->
-    </section>
+  <h2>Admin Panel</h2>
+  <p>Bienvenue dans l'interface administrateur.</p>
+  <table id="ordersTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Statut</th>
+        <th>Impression</th>
+        <th>Distribution</th>
+        <th>Destinataire</th>
+        <th>Lien Objet</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
+
   </main>
+
 
   <script src="script.js"></script>
 </body>
