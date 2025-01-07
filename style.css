@@ -1,3 +1,4 @@
+/* General Styles */
 body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
@@ -51,26 +52,115 @@ input[type="text"], input[type="password"] {
   display: none;
 }
 
+/* Order Details Section */
 #orderDetails {
   margin-top: 20px;
   padding: 15px;
   border: 1px solid #ccc;
   background-color: #fff;
   border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Login Section */
 #loginSection {
   margin-top: 20px;
   padding: 15px;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
   border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Admin Panel */
 #adminPanel {
   margin-top: 20px;
   padding: 20px;
   border: 1px solid #ccc;
   background-color: #fff;
   border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #4caf50;
+  color: white;
+}
+
+td {
+  background-color: #f9f9f9;
+}
+
+td.editable {
+  background-color: #e7f3ff;
+  cursor: text;
+}
+
+td.editable:focus {
+  outline: none;
+  border: 2px solid #4caf50;
+  background-color: #d9f7d9;
+}
+
+/* Links */
+a {
+  color: #4caf50;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Buttons in Table Rows */
+table td button {
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+table td button:hover {
+  background-color: #45a049;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  header h1 {
+    font-size: 20px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  input[type="text"], input[type="password"] {
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 8px;
+  }
 }
