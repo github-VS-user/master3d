@@ -1,97 +1,67 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master 3D - Gestion des Commandes</title>
-    <link rel="stylesheet" href="style.css">
-    <script defer src="script.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master 3D - Suivi des Commandes</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Master 3D - Suivi des Commandes</h1>
-    </header>
+  <header>
+    <h1>Master 3D - Suivi des Commandes</h1>
+    <button id="adminSpace">Admin Space</button>
+  </header>
 
-    <!-- Lien vers l'espace Admin -->
-<a href="#" id="adminSpace">Admin Space</a>
-<!-- Ajoutez ce lien ou bouton pour accéder à l'Admin -->
-<button id="adminLink">Accéder à l'Admin</button>
+  <main>
+    <!-- Section Consulter une Commande -->
+    <section>
+      <h2>Consulter une commande</h2>
+      <form id="orderForm">
+        <label for="orderNumber">Numéro de commande (3 chiffres) :</label>
+        <input type="text" id="orderNumber" placeholder="Ex : 123" maxlength="4" required>
+        <button type="submit">Consulter</button>
+      </form>
 
+      <div id="orderDetails" class="hidden">
+        <h3>Détails de la commande</h3>
+        <p><strong>Statut :</strong> <span id="status"></span></p>
+        <p><strong>Responsable de l'impression :</strong> <span id="printer"></span></p>
+        <p><strong>Responsable de la distribution :</strong> <span id="distributor"></span></p>
+        <p><strong>Destinataire :</strong> <span id="recipient"></span></p>
+        <p><strong>Lien de l'objet :</strong> <a id="objectLink" href="#" target="_blank"></a></p>
+      </div>
+    </section>
 
-    <!-- Page publique pour consulter une commande -->
-    <section id="public">
-        <h2>  Consulter une commande</h2>
-
-        <!-- Section Admin (initialement cachée) -->
-<section id="admin" class="hidden">
-    <h2>Interface Admin - Gestion des Commandes</h2>
-    <!-- Formulaire pour entrer le mot de passe Admin -->
-    <form id="adminLoginForm">
-        <label for="adminPassword">Mot de passe Admin :</label>
-        <input type="password" id="adminPassword" required>
-        <button type="submit">Se connecter</button>
-    </form>
-    <!-- Panneau Admin (initialement caché) -->
-    <div id="adminPanel" class="hidden">
-        <h3>Ajouter ou modifier une commande</h3>
-        <!-- Formulaire pour gérer les commandes -->
+    <!-- Section Modifier le Statut -->
+    <div id="modifyStatus" class="hidden">
+      <h3>Modifier le statut de la commande</h3>
+      <label for="newStatus">Nouveau statut :</label>
+      <select id="newStatus">
+        <option value="En Attente">En Attente</option>
+        <option value="En Cours">En Cours</option>
+        <option value="Imprimé">Imprimé</option>
+        <option value="En Livraison">En Livraison</option>
+        <option value="Livré">Livré</option>
+      </select>
+      <button id="saveStatus">Sauvegarder</button>
     </div>
-</section>
 
-        <form id="orderForm">
-            <label for="orderNumber">Numéro de commande (3 chiffres) :</label>
-            <input type="text" id="orderNumber" maxlength="3" required>
-            <button type="submit">Consulter</button>
-        </form>
-        <div id="orderDetails" class="hidden">
-            <h3>Détails de la commande</h3>
-            <p><strong>Statut :</strong> <span id="status"></span></p>
-            <p><strong>Responsable de l'impression :</strong> <span id="printer"></span></p>
-            <p><strong>Responsable de la distribution :</strong> <span id="distributor"></span></p>
-            <p><strong>Destinataire :</strong> <span id="recipient"></span></p>
-            <p><strong>Lien de l'objet :</strong> <a href="" id="objectLink" target="_blank">Voir l'objet</a></p>
-        </div>
-    </section>
+    <!-- Formulaire Admin -->
+    <div id="adminLoginForm" class="hidden">
+      <h3>Connexion Admin</h3>
+      <label for="adminPassword">Mot de passe :</label>
+      <input type="password" id="adminPassword" required>
+      <button id="loginButton">Se connecter</button>
+    </div>
 
-    <!-- Page Admin -->
-    <section id="admin" class="hidden">
-        <h2>Interface Admin - Gestion des Commandes</h2>
-        <form id="adminLoginForm">
-            <label for="adminPassword">Mot de passe Admin :</label>
-            <input type="password" id="adminPassword" required>
-            <button type="submit">Se connecter</button>
-        </form>
-        <div id="adminPanel" class="hidden">
-            <h3>Ajouter ou modifier une commande</h3>
-            <form id="orderFormAdmin">
-                <label for="orderNumberAdmin">Numéro de commande :</label>
-                <input type="text" id="orderNumberAdmin" maxlength="3" required>
-                <label for="statusAdmin">Statut :</label>
-                <select id="statusAdmin" required>
-                    <option value="En Attente">En Attente</option>
-                    <option value="En Cours">En Cours</option>
-                    <option value="Imprimé">Imprimé</option>
-                    <option value="En Livraison">En Livraison</option>
-                    <option value="Livré">Livré</option>
-                </select>
-                <label for="printerAdmin">Responsable de l'impression :</label>
-                <select id="printerAdmin" required>
-                    <option value="Dario">Dario</option>
-                    <option value="Abel">Abel</option>
-                </select>
-                <label for="distributorAdmin">Responsable de la distribution :</label>
-                <select id="distributorAdmin" required>
-                    <option value="Dario">Dario</option>
-                    <option value="Oscar">Oscar</option>
-                    <option value="Abel">Abel</option>
-                </select>
-                <label for="recipientAdmin">Destinataire :</label>
-                <input type="text" id="recipientAdmin" required>
-                <label for="objectLinkAdmin">Lien de l'objet :</label>
-                <input type="url" id="objectLinkAdmin" required>
-                <button type="submit">Enregistrer</button>
-            </form>
-        </div>
-    </section>
+    <!-- Panneau Admin -->
+    <div id="adminPanel" class="hidden">
+      <h3>Panneau Admin</h3>
+      <p>Bienvenue dans l'espace administrateur.</p>
+      <!-- Ajoute les outils d'édition ici -->
+    </div>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
