@@ -13,12 +13,12 @@
   </header>
 
   <main>
-    <!-- Section Consulter une Commande -->
+    <!-- Section pour consulter une commande -->
     <section>
       <h2>Consulter une commande</h2>
       <form id="orderForm">
         <label for="orderNumber">Numéro de commande (3 chiffres) :</label>
-        <input type="text" id="orderNumber" placeholder="Ex : 123" maxlength="4" required>
+        <input type="text" id="orderNumber" maxlength="3" required>
         <button type="submit">Consulter</button>
       </form>
 
@@ -28,38 +28,26 @@
         <p><strong>Responsable de l'impression :</strong> <span id="printer"></span></p>
         <p><strong>Responsable de la distribution :</strong> <span id="distributor"></span></p>
         <p><strong>Destinataire :</strong> <span id="recipient"></span></p>
-        <p><strong>Lien de l'objet :</strong> <a id="objectLink" href="#" target="_blank"></a></p>
+        <p><strong>Lien de l'objet :</strong> <a id="objectLink" href="#" target="_blank">Voir l'objet</a></p>
       </div>
     </section>
 
-    <!-- Section Modifier le Statut -->
-    <div id="modifyStatus" class="hidden">
-      <h3>Modifier le statut de la commande</h3>
-      <label for="newStatus">Nouveau statut :</label>
-      <select id="newStatus">
-        <option value="En Attente">En Attente</option>
-        <option value="En Cours">En Cours</option>
-        <option value="Imprimé">Imprimé</option>
-        <option value="En Livraison">En Livraison</option>
-        <option value="Livré">Livré</option>
-      </select>
-      <button id="saveStatus">Sauvegarder</button>
-    </div>
-
-    <!-- Formulaire Admin -->
-    <div id="adminLoginForm" class="hidden">
+    <!-- Section Connexion Admin -->
+    <section id="loginSection" class="hidden">
       <h3>Connexion Admin</h3>
-      <label for="adminPassword">Mot de passe :</label>
-      <input type="password" id="adminPassword" required>
-      <button id="loginButton">Se connecter</button>
-    </div>
+      <form id="adminLoginForm">
+        <label for="adminPassword">Mot de passe :</label>
+        <input type="password" id="adminPassword" required>
+        <button type="submit">Se connecter</button>
+      </form>
+    </section>
 
-    <!-- Panneau Admin -->
-    <div id="adminPanel" class="hidden">
-      <h3>Panneau Admin</h3>
-      <p>Bienvenue dans l'espace administrateur.</p>
-      <!-- Ajoute les outils d'édition ici -->
-    </div>
+    <!-- Section Admin Panel -->
+    <section id="adminPanel" class="hidden">
+      <h2>Admin Panel</h2>
+      <p>Bienvenue dans l'interface administrateur.</p>
+      <!-- Ajouter des fonctionnalités pour l'admin ici -->
+    </section>
   </main>
 
   <script src="script.js"></script>
