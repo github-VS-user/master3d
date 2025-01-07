@@ -47,7 +47,7 @@ document.getElementById('adminSpace').addEventListener('click', function () {
 
 // Vérifier le mot de passe Admin
 document.getElementById('loginButton').addEventListener('click', function () {
-  const adminPassword = 'master3DAdmin';
+  const adminPassword = 'adminadmin';
   const enteredPassword = document.getElementById('adminPassword').value.trim();
 
   if (enteredPassword === adminPassword) {
