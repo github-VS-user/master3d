@@ -1,8 +1,7 @@
-// URL du fichier JSON
-const jsonUrl = 'https://github-vs-user.github.io/master3d/commandes.json';
-const serverUrl = 'https://master3d.onrender.com'; // Update with your server's URL
+// URL du backend
+const serverUrl = 'https://master3d.onrender.com'; // URL Render
 
-// Function to update order status on the server
+// Fonction pour mettre à jour le statut de commande sur le serveur
 function updateOrderStatus(orderId, newStatus) {
   fetch(`${serverUrl}/update-order`, {
     method: 'POST',
@@ -19,11 +18,11 @@ function updateOrderStatus(orderId, newStatus) {
     })
     .then(message => {
       console.log(message);
-      alert(`Order ${orderId} status updated successfully.`);
+      alert(`Commande ${orderId} mise à jour avec succès.`);
     })
     .catch(error => {
-      console.error('Error updating order:', error);
-      alert('Failed to update order.');
+      console.error('Erreur lors de la mise à jour de la commande :', error);
+      alert('Échec de la mise à jour de la commande.');
     });
 }
 
@@ -49,7 +48,7 @@ document.getElementById('adminLoginForm').addEventListener('submit', function (e
 
 // Fonction pour récupérer les détails d'une commande
 function fetchOrderDetails(orderNumber) {
-  fetch(jsonUrl)
+  fetch(`${serverUrl}/orders`)
     .then(response => {
       if (!response.ok) {
         throw new Error(`Erreur HTTP: ${response.status}`);
@@ -73,7 +72,7 @@ function fetchOrderDetails(orderNumber) {
       }
     })
     .catch(error => {
-      console.error('Erreur lors du chargement des commandes:', error);
+      console.error('Erreur lors du chargement des commandes :', error);
       alert('Une erreur est survenue.');
     });
 }
@@ -91,9 +90,9 @@ document.getElementById('orderForm').addEventListener('submit', function (event)
   fetchOrderDetails(orderNumber);
 });
 
-// Load orders into the admin panel table
+// Charger les commandes dans le tableau Admin
 function loadAdminOrders() {
-  fetch(jsonUrl)
+  fetch(`${serverUrl}/orders`)
     .then(response => {
       if (!response.ok) {
         throw new Error(`Erreur HTTP: ${response.status}`);
@@ -102,7 +101,7 @@ function loadAdminOrders() {
     })
     .then(data => {
       const tableBody = document.querySelector('#ordersTable tbody');
-      tableBody.innerHTML = ''; // Clear previous data
+      tableBody.innerHTML = ''; // Vider les données existantes
 
       data.orders.forEach(order => {
         const row = document.createElement('tr');
@@ -117,23 +116,23 @@ function loadAdminOrders() {
         tableBody.appendChild(row);
       });
 
-      // Add event listener for inline editing
+      // Ajouter un écouteur pour la modification en ligne
       tableBody.addEventListener('input', event => {
         if (event.target.classList.contains('editable')) {
           const row = event.target.closest('tr');
           const orderId = row.children[0].textContent.trim();
           const newStatus = event.target.textContent.trim();
-          updateOrderStatus(orderId, newStatus); // Use the server-based function
+          updateOrderStatus(orderId, newStatus); // Mettre à jour sur le serveur
         }
       });
     })
     .catch(error => {
-      console.error('Erreur lors du chargement des commandes:', error);
+      console.error('Erreur lors du chargement des commandes :', error);
       alert('Impossible de charger les commandes.');
     });
 }
 
-// Load orders when admin panel is displayed
+// Charger les commandes quand le panneau admin est affiché
 document.getElementById('adminSpace').addEventListener('click', () => {
   loadAdminOrders();
 });
