@@ -164,3 +164,7 @@ table td button:hover {
     padding: 8px;
   }
 }
+/* Add this to your style.css */
+.hidden {
+  display: none;
+}
