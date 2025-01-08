@@ -1,6 +1,6 @@
 // URL du fichier JSON
 const jsonUrl = 'https://github-vs-user.github.io/master3d/commandes.json';
-const serverUrl = 'http://localhost:3000'; // Update with your server's URL
+const serverUrl = 'https://master3d.onrender.com'; // Update with your server's URL
 
 // Function to update order status on the server
 function updateOrderStatus(orderId, newStatus) {
