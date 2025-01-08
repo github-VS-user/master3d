@@ -68,7 +68,50 @@ function loadAdminOrders() {
     });
 }
 
-// Load orders when admin panel is displayed
+// Function to handle order number form submission and fetch details
+document.getElementById('orderForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const orderNumber = document.getElementById('orderNumber').value;
+  fetchOrderDetails(orderNumber); // Fetch the order details based on the order number
+});
+
+function fetchOrderDetails(orderNumber) {
+  fetch(`${serverUrl}/orders`)
+    .then(response => response.json())
+    .then(data => {
+      const order = data.orders.find(o => o.id === orderNumber);
+      if (order) {
+        // Populate the order details section
+        document.getElementById('status').textContent = order.status;
+        document.getElementById('printer').textContent = order.impression;
+        document.getElementById('distributor').textContent = order.distribution;
+        document.getElementById('recipient').textContent = order.destinataire;
+        document.getElementById('objectLink').href = order.lienObjet;
+        
+        // Show the details section
+        document.getElementById('orderDetails').classList.remove('hidden');
+      } else {
+        alert('Commande non trouvée.');
+      }
+    })
+    .catch(error => console.error('Erreur:', error));
+}
+
+// Admin login form handling
+document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const password = document.getElementById('adminPassword').value;
+  if (password === 'master3DAdmin') { // Check for correct password
+    document.getElementById('loginSection').classList.add('hidden');
+    document.getElementById('adminPanel').classList.remove('hidden');
+    loadAdminOrders(); // Load orders after successful login
+  } else {
+    alert('Mot de passe incorrect.');
+  }
+});
+
+// Load orders when admin space button is clicked
 document.getElementById('adminSpace').addEventListener('click', () => {
-  loadAdminOrders();
+  document.getElementById('loginSection').classList.remove('hidden');
+  document.getElementById('adminSpace').classList.add('hidden'); // Hide the admin button once clicked
 });
