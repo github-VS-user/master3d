@@ -68,7 +68,7 @@ function fetchOrderDetails(orderNumber) {
 
         document.getElementById('orderDetails').classList.remove('hidden');
       } else {
-        alert('Commande non trouvé. Contacter l'Admin.');
+        alert('Commande non trouvé.');
       }
     })
     .catch(error => {
