@@ -1,126 +1,41 @@
 const express = require('express');
-const axios = require('axios'); // Install axios: npm install axios
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
 const app = express();
-const PORT = 3000;
+app.use(bodyParser.json());
+app.use(cors());
 
-// Middleware to parse JSON request bodies
-app.use(express.json());
+// Simuler une base de données en mémoire
+let orders = [
+  {
+    id: "001",
+    status: "En Attente",
+    impression: "Dario",
+    distribution: "Oscar",
+    destinataire: "Jean Dupont",
+    lienObjet: "https://example.com/objet-imprimer"
+  }
+];
 
-// GitHub Repository Details
-const GITHUB_REPO = 'MasterX_823/master3d'; // Replace with your repo name
-const GITHUB_FILE_PATH = 'commandes.json';  // Path to the JSON file in the repo
-const GITHUB_TOKEN = 'const express = require('express');
-const axios = require('axios'); // Install axios: npm install axios
-const app = express();
-const PORT = 3000;
+// Endpoint pour récupérer toutes les commandes
+app.get('/orders', (req, res) => {
+  res.json({ orders });
+});
 
-// Middleware to parse JSON request bodies
-app.use(express.json());
-
-// GitHub Repository Details
-const GITHUB_REPO = 'MasterX_823/master3d'; // Replace with your repo name
-const GITHUB_FILE_PATH = 'commandes.json';  // Path to the JSON file in the repo
-const GITHUB_TOKEN = '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'; // Replace with your actual token
-
-// Update order status and push changes to GitHub
-app.post('/update-order', async (req, res) => {
+// Endpoint pour mettre à jour une commande
+app.post('/update-order', (req, res) => {
   const { id, status } = req.body;
 
-  try {
-    // Step 1: Get the current file from GitHub
-    const { data: fileData } = await axios.get(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE_PATH}`,
-      {
-        headers: { Authorization: `token ${GITHUB_TOKEN}` },
-      }
-    );
-
-    // Decode the file content (base64)
-    const orders = JSON.parse(Buffer.from(fileData.content, 'base64').toString('utf8'));
-
-    // Step 2: Update the specific order
-    const order = orders.orders.find(order => order.id === id);
-    if (!order) {
-      return res.status(404).send('Order not found.');
-    }
+  const order = orders.find(order => order.id === id);
+  if (order) {
     order.status = status;
-
-    // Step 3: Update the file content (encode to base64)
-    const updatedContent = Buffer.from(JSON.stringify(orders, null, 2)).toString('base64');
-
-    // Step 4: Commit the updated file back to GitHub
-    await axios.put(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE_PATH}`,
-      {
-        message: `Update order ${id} status to ${status}`,
-        content: updatedContent,
-        sha: fileData.sha, // Required to overwrite the file
-      },
-      {
-        headers: { Authorization: `token ${GITHUB_TOKEN}` },
-      }
-    );
-
-    res.send(`Order ${id} updated successfully.`);
-  } catch (error) {
-    console.error('Error updating order:', error.response?.data || error.message);
-    res.status(500).send('Failed to update order.');
+    res.send(`Commande ${id} mise à jour avec succès.`);
+  } else {
+    res.status(404).send('Commande introuvable.');
   }
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
-
-
-// Update order status and push changes to GitHub
-app.post('/update-order', async (req, res) => {
-  const { id, status } = req.body;
-
-  try {
-    // Step 1: Get the current file from GitHub
-    const { data: fileData } = await axios.get(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE_PATH}`,
-      {
-        headers: { Authorization: `token ${GITHUB_TOKEN}` },
-      }
-    );
-
-    // Decode the file content (base64)
-    const orders = JSON.parse(Buffer.from(fileData.content, 'base64').toString('utf8'));
-
-    // Step 2: Update the specific order
-    const order = orders.orders.find(order => order.id === id);
-    if (!order) {
-      return res.status(404).send('Order not found.');
-    }
-    order.status = status;
-
-    // Step 3: Update the file content (encode to base64)
-    const updatedContent = Buffer.from(JSON.stringify(orders, null, 2)).toString('base64');
-
-    // Step 4: Commit the updated file back to GitHub
-    await axios.put(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE_PATH}`,
-      {
-        message: `Update order ${id} status to ${status}`,
-        content: updatedContent,
-        sha: fileData.sha, // Required to overwrite the file
-      },
-      {
-        headers: { Authorization: `token ${GITHUB_TOKEN}` },
-      }
-    );
-
-    res.send(`Order ${id} updated successfully.`);
-  } catch (error) {
-    console.error('Error updating order:', error.response?.data || error.message);
-    res.status(500).send('Failed to update order.');
-  }
-});
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+// Lancer le serveur
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
