@@ -1,6 +1,6 @@
-const express = require('express'); // Import express
-const bodyParser = require('body-parser'); // Import body-parser
-const cors = require('cors'); // Import cors
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
 app.use(bodyParser.json());
@@ -25,17 +25,21 @@ app.get('/orders', (req, res) => {
 
 // Endpoint pour mettre à jour une commande
 app.post('/update-order', (req, res) => {
-  const { id, status } = req.body;
+  const { id, field, value } = req.body;
 
   const order = orders.find(order => order.id === id);
   if (order) {
-    order.status = status;
-    res.send(`Commande ${id} mise à jour avec succès.`);
+    if (field in order) {
+      order[field] = value; // Update the specific field
+      res.send(`Commande ${id} mise à jour : ${field} = ${value}`);
+    } else {
+      res.status(400).send('Champ non valide.');
+    }
   } else {
     res.status(404).send('Commande introuvable.');
   }
 });
 
 // Lancer le serveur
-const PORT = process.env.PORT || 3000; // Dynamic port for Render, fallback to 3000 locally
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
