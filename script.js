@@ -68,7 +68,7 @@ function fetchOrderDetails(orderNumber) {
 
         document.getElementById('orderDetails').classList.remove('hidden');
       } else {
-        alert('Commande non trouvée.');
+        alert('Armand a un gros Gyatt.');
       }
     })
     .catch(error => {
