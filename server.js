@@ -36,6 +36,25 @@ app.post('/update-order', (req, res) => {
   }
 });
 
+// Endpoint pour ajouter une commande
+app.post('/orders', (req, res) => {
+  const { status, impression, distribution, destinataire, lienObjet } = req.body;
+  let maxId = orders.reduce((max, order) => Math.max(max, parseInt(order.id)), 0);
+  let newId = String(maxId + 1).padStart(3, '0');
+
+  const newOrder = {
+    id: newId,
+    status,
+    impression,
+    distribution,
+    destinataire,
+    lienObjet
+  };
+
+  orders.push(newOrder);
+  res.status(201).json({ message: "Commande ajoutée avec succès", order: newOrder });
+});
+
 // Lancer le serveur
-const PORT = process.env.PORT || 3000; // Dynamic port for Render, fallback to 3000 locally
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
