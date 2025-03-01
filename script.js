@@ -244,3 +244,26 @@ function renderOrders(orders) {
     tableBody.appendChild(row);
   });
 }
+
+// Show/hide loading animation
+function showLoadingAnimation() {
+  document.getElementById('loadingAnimation').classList.remove('hidden');
+}
+
+function hideLoadingAnimation() {
+  document.getElementById('loadingAnimation').classList.add('hidden');
+}
+
+// Example fetch call
+showLoadingAnimation();
+fetch(`${serverUrl}/orders`)
+  .then(response => response.json())
+  .then(data => {
+    renderOrders(data.orders);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  })
+  .finally(() => {
+    hideLoadingAnimation();
+  });
