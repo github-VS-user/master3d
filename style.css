@@ -168,3 +168,59 @@ table td button:hover {
 .hidden {
   display: none;
 }
+
+/* Add these styles to your existing CSS */
+
+/* Create Order Form */
+#createOrderForm {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#createOrderForm label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+#createOrderForm input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Filter and Sort Controls */
+#filterSortControls {
+  margin-bottom: 20px;
+}
+
+#filterSortControls label {
+  margin-right: 10px;
+}
+
+#filterSortControls select, #filterSortControls button {
+  padding: 8px 12px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Delete Button */
+.deleteOrder {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.deleteOrder:hover {
+  background-color: #ff1a1a;
+}
