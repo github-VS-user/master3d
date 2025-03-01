@@ -16,14 +16,6 @@ let orders = [
     destinataire: "Jean Dupont",
     lienObjet: "https://example.com/objet-imprimer"
   }
-  {
-    id: "001",
-    status: "En Impression",
-    impression: "Dario",
-    distribution: "Dario",
-    destinataire: "Sam",
-    lienObjet: "https://example.com/objet-imprimer"
-  }
 ];
 
 // Endpoint pour récupérer toutes les commandes
