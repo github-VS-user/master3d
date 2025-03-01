@@ -221,6 +221,120 @@ table td button:hover {
   cursor: pointer;
 }
 
+/* Double Ring Spinner */
+@keyframes ldio-wd0tfznac7 {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}
+
+.ldio-wd0tfznac7 div { box-sizing: border-box!important; }
+
+.ldio-wd0tfznac7 > div {
+  position: absolute;
+  width: 146.25px;
+  height: 146.25px;
+  top: 24.375px;
+  left: 24.375px;
+  border-radius: 50%;
+  border: 17.55px solid #000;
+  border-color: #037ef3 transparent #037ef3 transparent;
+  animation: ldio-wd0tfznac7 1.7241379310344827s linear infinite;
+}
+
+.ldio-wd0tfznac7 > div:nth-child(2),
+.ldio-wd0tfznac7 > div:nth-child(4) {
+  width: 107.25px;
+  height: 107.25px;
+  top: 43.875px;
+  left: 43.875px;
+  animation: ldio-wd0tfznac7 1.7241379310344827s linear infinite reverse;
+}
+
+.ldio-wd0tfznac7 > div:nth-child(2) {
+  border-color: transparent #f85a40 transparent #f85a40;
+}
+
+.ldio-wd0tfznac7 > div:nth-child(3) { border-color: transparent; }
+
+.ldio-wd0tfznac7 > div:nth-child(3) div {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: rotate(45deg);
+}
+
+.ldio-wd0tfznac7 > div:nth-child(3) div:before,
+.ldio-wd0tfznac7 > div:nth-child(3) div:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 17.55px;
+  height: 17.55px;
+  top: -17.55px;
+  left: 46.8px;
+  background: #037ef3;
+  border-radius: 50%;
+  box-shadow: 0 128.7px 0 0 #037ef3;
+}
+
+.ldio-wd0tfznac7 > div:nth-child(3) div:after {
+  left: -17.55px;
+  top: 46.8px;
+  box-shadow: 128.7px 0 0 0 #037ef3;
+}
+
+.ldio-wd0tfznac7 > div:nth-child(4) { border-color: transparent; }
+
+.ldio-wd0tfznac7 > div:nth-child(4) div {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: rotate(45deg);
+}
+
+.ldio-wd0tfznac7 > div:nth-child(4) div:before,
+.ldio-wd0tfznac7 > div:nth-child(4) div:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 17.55px;
+  height: 17.55px;
+  top: -17.55px;
+  left: 27.3px;
+  background: #f85a40;
+  border-radius: 50%;
+  box-shadow: 0 89.7px 0 0 #f85a40;
+}
+
+.ldio-wd0tfznac7 > div:nth-child(4) div:after {
+  left: -17.55px;
+  top: 27.3px;
+  box-shadow: 89.7px 0 0 0 #f85a40;
+}
+
+.loadingio-spinner-double-ring-oot7eymf2wg {
+  width: 195px;
+  height: 195px;
+  display: inline-block;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.ldio-wd0tfznac7 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(1);
+  backface-visibility: hidden;
+  transform-origin: 0 0;
+}
+
+.ldio-wd0tfznac7 div { box-sizing: content-box; }
+
+/* Hide the spinner by default */
+.hidden {
+  display: none;
+}
 .deleteOrder:hover {
   background-color: #ff1a1a;
 }
