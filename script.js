@@ -1,9 +1,15 @@
 const serverUrl = 'https://master3d.onrender.com'; // URL Render
 
+// Function to generate a random delay between 200ms and 2000ms
+function getRandomDelay() {
+  return Math.floor(Math.random() * (2000 - 200 + 1)) + 200;
+}
+
 // Function to update order status
 function updateOrderStatus(orderId, newStatus) {
   showLoadingAnimation(); // Show the spinner
-  setTimeout(() => { // Add a delay
+  const delay = getRandomDelay(); // Get a random delay
+  setTimeout(() => { // Use the random delay
     fetch(`${serverUrl}/update-order`, {
       method: 'POST',
       headers: {
@@ -28,7 +34,7 @@ function updateOrderStatus(orderId, newStatus) {
       .finally(() => {
         hideLoadingAnimation(); // Hide the spinner
       });
-  }, 2000); // 2-second delay
+  }, delay); // Use the random delay
 }
 
 // Admin Space
@@ -55,7 +61,8 @@ document.getElementById('adminLoginForm').addEventListener('submit', function (e
 // Fetch Order Details
 function fetchOrderDetails(orderNumber) {
   showLoadingAnimation(); // Show the spinner
-  setTimeout(() => { // Add a delay
+  const delay = getRandomDelay(); // Get a random delay
+  setTimeout(() => { // Use the random delay
     fetch(`${serverUrl}/orders`)
       .then(response => {
         if (!response.ok) {
@@ -86,7 +93,7 @@ function fetchOrderDetails(orderNumber) {
       .finally(() => {
         hideLoadingAnimation(); // Hide the spinner
       });
-  }, 2000); // 2-second delay
+  }, delay); // Use the random delay
 }
 
 // Search Order
@@ -105,7 +112,8 @@ document.getElementById('orderForm').addEventListener('submit', function (event)
 // Load Admin Orders
 function loadAdminOrders() {
   showLoadingAnimation(); // Show the spinner
-  setTimeout(() => { // Add a delay
+  const delay = getRandomDelay(); // Get a random delay
+  setTimeout(() => { // Use the random delay
     fetch(`${serverUrl}/orders`)
       .then(response => {
         if (!response.ok) {
@@ -158,7 +166,7 @@ function loadAdminOrders() {
       .finally(() => {
         hideLoadingAnimation(); // Hide the spinner
       });
-  }, 2000); // 2-second delay
+  }, delay); // Use the random delay
 }
 
 // Create Order
@@ -171,7 +179,8 @@ document.getElementById('createOrderForm').addEventListener('submit', function (
   const lienObjet = document.getElementById('lienObjetInput').value.trim();
 
   showLoadingAnimation(); // Show the spinner
-  setTimeout(() => { // Add a delay
+  const delay = getRandomDelay(); // Get a random delay
+  setTimeout(() => { // Use the random delay
     fetch(`${serverUrl}/orders`, {
       method: 'POST',
       headers: {
@@ -196,13 +205,14 @@ document.getElementById('createOrderForm').addEventListener('submit', function (
       .finally(() => {
         hideLoadingAnimation(); // Hide the spinner
       });
-  }, 2000); // 2-second delay
+  }, delay); // Use the random delay
 });
 
 // Delete Order
 function deleteOrder(orderId) {
   showLoadingAnimation(); // Show the spinner
-  setTimeout(() => { // Add a delay
+  const delay = getRandomDelay(); // Get a random delay
+  setTimeout(() => { // Use the random delay
     fetch(`${serverUrl}/orders/${orderId}`, {
       method: 'DELETE',
     })
@@ -223,7 +233,7 @@ function deleteOrder(orderId) {
       .finally(() => {
         hideLoadingAnimation(); // Hide the spinner
       });
-  }, 2000); // 2-second delay
+  }, delay); // Use the random delay
 }
 
 // Show/hide loading animation
