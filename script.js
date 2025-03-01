@@ -1,7 +1,6 @@
-// URL du backend
-const serverUrl = 'https://master3d.onrender.com'; // URL Render
+ const serverUrl = 'https://master3d.onrender.com'; // URL Render
 
-// Fonction pour mettre à jour le statut de commande sur le serveur
+// Function to update order status
 function updateOrderStatus(orderId, newStatus) {
   fetch(`${serverUrl}/update-order`, {
     method: 'POST',
@@ -26,13 +25,13 @@ function updateOrderStatus(orderId, newStatus) {
     });
 }
 
-// Gestion de l'affichage de l'espace Admin
+// Admin Space
 document.getElementById('adminSpace').addEventListener('click', function () {
   document.getElementById('loginSection').classList.remove('hidden');
   document.getElementById('orderDetails').classList.add('hidden');
 });
 
-// Connexion Admin
+// Admin Login
 document.getElementById('adminLoginForm').addEventListener('submit', function (event) {
   event.preventDefault();
   const adminPasswordInput = document.getElementById('adminPassword').value.trim();
@@ -41,12 +40,13 @@ document.getElementById('adminLoginForm').addEventListener('submit', function (e
     alert('Connexion réussie !');
     document.getElementById('loginSection').classList.add('hidden');
     document.getElementById('adminPanel').classList.remove('hidden');
+    loadAdminOrders();
   } else {
     alert('Mot de passe incorrect.');
   }
 });
 
-// Fonction pour récupérer les détails d'une commande
+// Fetch Order Details
 function fetchOrderDetails(orderNumber) {
   fetch(`${serverUrl}/orders`)
     .then(response => {
@@ -68,7 +68,7 @@ function fetchOrderDetails(orderNumber) {
 
         document.getElementById('orderDetails').classList.remove('hidden');
       } else {
-        alert('Commande non trouvé.');
+        alert('Commande non trouvée.');
       }
     })
     .catch(error => {
@@ -77,7 +77,7 @@ function fetchOrderDetails(orderNumber) {
     });
 }
 
-// Recherche d'une commande
+// Search Order
 document.getElementById('orderForm').addEventListener('submit', function (event) {
   event.preventDefault();
   const orderNumber = document.getElementById('orderNumber').value.trim();
@@ -90,7 +90,7 @@ document.getElementById('orderForm').addEventListener('submit', function (event)
   fetchOrderDetails(orderNumber);
 });
 
-// Charger les commandes dans le tableau Admin
+// Load Admin Orders
 function loadAdminOrders() {
   fetch(`${serverUrl}/orders`)
     .then(response => {
@@ -101,7 +101,7 @@ function loadAdminOrders() {
     })
     .then(data => {
       const tableBody = document.querySelector('#ordersTable tbody');
-      tableBody.innerHTML = ''; // Vider les données existantes
+      tableBody.innerHTML = ''; // Clear existing data
 
       data.orders.forEach(order => {
         const row = document.createElement('tr');
@@ -112,17 +112,28 @@ function loadAdminOrders() {
           <td>${order.distribution}</td>
           <td>${order.destinataire}</td>
           <td><a href="${order.lienObjet}" target="_blank">Voir l'objet</a></td>
+          <td><button class="deleteOrder" data-id="${order.id}">Supprimer</button></td>
         `;
         tableBody.appendChild(row);
       });
 
-      // Ajouter un écouteur pour la modification en ligne
+      // Add listener for inline editing
       tableBody.addEventListener('input', event => {
         if (event.target.classList.contains('editable')) {
           const row = event.target.closest('tr');
           const orderId = row.children[0].textContent.trim();
           const newStatus = event.target.textContent.trim();
-          updateOrderStatus(orderId, newStatus); // Mettre à jour sur le serveur
+          updateOrderStatus(orderId, newStatus);
+        }
+      });
+
+      // Add listener for delete buttons
+      tableBody.addEventListener('click', event => {
+        if (event.target.classList.contains('deleteOrder')) {
+          const orderId = event.target.getAttribute('data-id');
+          if (confirm(`Êtes-vous sûr de vouloir supprimer la commande ${orderId} ?`)) {
+            deleteOrder(orderId);
+          }
         }
       });
     })
@@ -132,7 +143,104 @@ function loadAdminOrders() {
     });
 }
 
-// Charger les commandes quand le panneau admin est affiché
-document.getElementById('adminSpace').addEventListener('click', () => {
-  loadAdminOrders();
+// Create Order
+document.getElementById('createOrderForm').addEventListener('submit', function (event) {
+  event.preventDefault();
+  const status = document.getElementById('statusInput').value.trim();
+  const impression = document.getElementById('impressionInput').value.trim();
+  const distribution = document.getElementById('distributionInput').value.trim();
+  const destinataire = document.getElementById('destinataireInput').value.trim();
+  const lienObjet = document.getElementById('lienObjetInput').value.trim();
+
+  fetch(`${serverUrl}/orders`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ status, impression, distribution, destinataire, lienObjet }),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to create order.');
+      }
+      return response.json();
+    })
+    .then(data => {
+      alert('Commande créée avec succès.');
+      loadAdminOrders(); // Reload orders
+    })
+    .catch(error => {
+      console.error('Erreur lors de la création de la commande :', error);
+      alert('Échec de la création de la commande.');
+    });
 });
+
+// Delete Order
+function deleteOrder(orderId) {
+  fetch(`${serverUrl}/orders/${orderId}`, {
+    method: 'DELETE',
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to delete order.');
+      }
+      return response.text();
+    })
+    .then(message => {
+      alert(`Commande ${orderId} supprimée avec succès.`);
+      loadAdminOrders(); // Reload orders
+    })
+    .catch(error => {
+      console.error('Erreur lors de la suppression de la commande :', error);
+      alert('Échec de la suppression de la commande.');
+    });
+}
+
+// Filter and Sort Orders
+document.getElementById('filterStatus').addEventListener('change', function () {
+  loadAdminOrders(); // Reload orders with filter
+});
+
+document.getElementById('sortById').addEventListener('click', function () {
+  sortOrders('id');
+});
+
+document.getElementById('sortByDate').addEventListener('click', function () {
+  sortOrders('date');
+});
+
+function sortOrders(criteria) {
+  fetch(`${serverUrl}/orders`)
+    .then(response => response.json())
+    .then(data => {
+      let sortedOrders = data.orders;
+      if (criteria === 'id') {
+        sortedOrders.sort((a, b) => a.id.localeCompare(b.id));
+      } else if (criteria === 'date') {
+        sortedOrders.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      }
+      renderOrders(sortedOrders);
+    })
+    .catch(error => {
+      console.error('Erreur lors du tri des commandes :', error);
+    });
+}
+
+function renderOrders(orders) {
+  const tableBody = document.querySelector('#ordersTable tbody');
+  tableBody.innerHTML = ''; // Clear existing data
+
+  orders.forEach(order => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${order.id}</td>
+      <td contenteditable="true" class="editable">${order.status}</td>
+      <td>${order.impression}</td>
+      <td>${order.distribution}</td>
+      <td>${order.destinataire}</td>
+      <td><a href="${order.lienObjet}" target="_blank">Voir l'objet</a></td>
+      <td><button class="deleteOrder" data-id="${order.id}">Supprimer</button></td>
+    `;
+    tableBody.appendChild(row);
+  });
+}
