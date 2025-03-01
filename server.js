@@ -1,12 +1,11 @@
-const express = require('express'); // Import express
-const bodyParser = require('body-parser'); // Import body-parser
-const cors = require('cors'); // Import cors
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-// Simuler une base de données en mémoire
 let orders = [
   {
     id: "001",
@@ -14,16 +13,17 @@ let orders = [
     impression: "Dario",
     distribution: "Oscar",
     destinataire: "Jean Dupont",
-    lienObjet: "https://example.com/objet-imprimer"
-  }
+    lienObjet: "https://example.com/objet-imprimer",
+    createdAt: new Date().toISOString(),
+  },
 ];
 
-// Endpoint pour récupérer toutes les commandes
+// Get all orders
 app.get('/orders', (req, res) => {
   res.json({ orders });
 });
 
-// Endpoint pour mettre à jour une commande
+// Update order status
 app.post('/update-order', (req, res) => {
   const { id, status } = req.body;
 
@@ -36,7 +36,7 @@ app.post('/update-order', (req, res) => {
   }
 });
 
-// Endpoint pour ajouter une commande
+// Create a new order
 app.post('/orders', (req, res) => {
   const { status, impression, distribution, destinataire, lienObjet } = req.body;
   let maxId = orders.reduce((max, order) => Math.max(max, parseInt(order.id)), 0);
@@ -48,17 +48,27 @@ app.post('/orders', (req, res) => {
     impression,
     distribution,
     destinataire,
-    lienObjet
+    lienObjet,
+    createdAt: new Date().toISOString(),
   };
 
   orders.push(newOrder);
   res.status(201).json({ message: "Commande ajoutée avec succès", order: newOrder });
 });
 
-// Lancer le serveur
+// Delete an order
+app.delete('/orders/:id', (req, res) => {
+  const orderId = req.params.id;
+  const orderIndex = orders.findIndex(order => order.id === orderId);
+
+  if (orderIndex !== -1) {
+    orders.splice(orderIndex, 1);
+    res.send(`Commande ${orderId} supprimée avec succès.`);
+  } else {
+    res.status(404).send('Commande introuvable.');
+  }
+});
+
+// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
-
-app.get('/', (req, res) => {
-  res.send('Bienvenue sur l\'API de Master3D !');
-});
