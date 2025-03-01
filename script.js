@@ -1,4 +1,4 @@
- const serverUrl = 'https://master3d.onrender.com'; // URL Render
+const serverUrl = 'https://master3d.onrender.com'; // URL Render
 
 // Function to update order status
 function updateOrderStatus(orderId, newStatus) {
@@ -48,6 +48,7 @@ document.getElementById('adminLoginForm').addEventListener('submit', function (e
 
 // Fetch Order Details
 function fetchOrderDetails(orderNumber) {
+  showLoadingAnimation();
   fetch(`${serverUrl}/orders`)
     .then(response => {
       if (!response.ok) {
@@ -74,6 +75,9 @@ function fetchOrderDetails(orderNumber) {
     .catch(error => {
       console.error('Erreur lors du chargement des commandes :', error);
       alert('Une erreur est survenue.');
+    })
+    .finally(() => {
+      hideLoadingAnimation();
     });
 }
 
@@ -92,6 +96,7 @@ document.getElementById('orderForm').addEventListener('submit', function (event)
 
 // Load Admin Orders
 function loadAdminOrders() {
+  showLoadingAnimation();
   fetch(`${serverUrl}/orders`)
     .then(response => {
       if (!response.ok) {
@@ -140,6 +145,9 @@ function loadAdminOrders() {
     .catch(error => {
       console.error('Erreur lors du chargement des commandes :', error);
       alert('Impossible de charger les commandes.');
+    })
+    .finally(() => {
+      hideLoadingAnimation();
     });
 }
 
@@ -152,6 +160,7 @@ document.getElementById('createOrderForm').addEventListener('submit', function (
   const destinataire = document.getElementById('destinataireInput').value.trim();
   const lienObjet = document.getElementById('lienObjetInput').value.trim();
 
+  showLoadingAnimation();
   fetch(`${serverUrl}/orders`, {
     method: 'POST',
     headers: {
@@ -172,11 +181,15 @@ document.getElementById('createOrderForm').addEventListener('submit', function (
     .catch(error => {
       console.error('Erreur lors de la création de la commande :', error);
       alert('Échec de la création de la commande.');
+    })
+    .finally(() => {
+      hideLoadingAnimation();
     });
 });
 
 // Delete Order
 function deleteOrder(orderId) {
+  showLoadingAnimation();
   fetch(`${serverUrl}/orders/${orderId}`, {
     method: 'DELETE',
   })
@@ -193,56 +206,10 @@ function deleteOrder(orderId) {
     .catch(error => {
       console.error('Erreur lors de la suppression de la commande :', error);
       alert('Échec de la suppression de la commande.');
-    });
-}
-
-// Filter and Sort Orders
-document.getElementById('filterStatus').addEventListener('change', function () {
-  loadAdminOrders(); // Reload orders with filter
-});
-
-document.getElementById('sortById').addEventListener('click', function () {
-  sortOrders('id');
-});
-
-document.getElementById('sortByDate').addEventListener('click', function () {
-  sortOrders('date');
-});
-
-function sortOrders(criteria) {
-  fetch(`${serverUrl}/orders`)
-    .then(response => response.json())
-    .then(data => {
-      let sortedOrders = data.orders;
-      if (criteria === 'id') {
-        sortedOrders.sort((a, b) => a.id.localeCompare(b.id));
-      } else if (criteria === 'date') {
-        sortedOrders.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-      }
-      renderOrders(sortedOrders);
     })
-    .catch(error => {
-      console.error('Erreur lors du tri des commandes :', error);
+    .finally(() => {
+      hideLoadingAnimation();
     });
-}
-
-function renderOrders(orders) {
-  const tableBody = document.querySelector('#ordersTable tbody');
-  tableBody.innerHTML = ''; // Clear existing data
-
-  orders.forEach(order => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${order.id}</td>
-      <td contenteditable="true" class="editable">${order.status}</td>
-      <td>${order.impression}</td>
-      <td>${order.distribution}</td>
-      <td>${order.destinataire}</td>
-      <td><a href="${order.lienObjet}" target="_blank">Voir l'objet</a></td>
-      <td><button class="deleteOrder" data-id="${order.id}">Supprimer</button></td>
-    `;
-    tableBody.appendChild(row);
-  });
 }
 
 // Show/hide loading animation
@@ -253,17 +220,3 @@ function showLoadingAnimation() {
 function hideLoadingAnimation() {
   document.getElementById('loadingAnimation').classList.add('hidden');
 }
-
-// Example fetch call
-showLoadingAnimation();
-fetch(`${serverUrl}/orders`)
-  .then(response => response.json())
-  .then(data => {
-    renderOrders(data.orders);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  })
-  .finally(() => {
-    hideLoadingAnimation();
-  });
