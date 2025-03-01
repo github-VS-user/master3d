@@ -58,3 +58,7 @@ app.post('/orders', (req, res) => {
 // Lancer le serveur
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
+
+app.get('/', (req, res) => {
+  res.send('Bienvenue sur l\'API de Master3D !');
+});
