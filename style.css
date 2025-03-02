@@ -218,4 +218,92 @@ table td button:hover {
 
 .ldio-wd0tfznac7 div { box-sizing: content-box; }
 
-/* Add the rest of the loading.io CSS here */
+@keyframes ldio-wd0tfznac7 {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}
+
+.ldio-wd0tfznac7 div { box-sizing: border-box !important; }
+
+.ldio-wd0tfznac7 > div {
+  position: absolute;
+  width: 146.25px;
+  height: 146.25px;
+  top: 24.375px;
+  left: 24.375px;
+  border-radius: 50%;
+  border: 17.55px solid #000;
+  border-color: #ff6f00 transparent #ff6f00 transparent; /* Orange rings */
+  animation: ldio-wd0tfznac7 1.7241379310344827s linear infinite;
+}
+
+.ldio-wd0tfznac7 > div:nth-child(2),
+.ldio-wd0tfznac7 > div:nth-child(4) {
+  width: 107.25px;
+  height: 107.25px;
+  top: 43.875px;
+  left: 43.875px;
+  animation: ldio-wd0tfznac7 1.7241379310344827s linear infinite reverse;
+}
+
+.ldio-wd0tfznac7 > div:nth-child(2) {
+  border-color: transparent #e65c00 transparent #e65c00; /* Darker orange */
+}
+
+.ldio-wd0tfznac7 > div:nth-child(3) { border-color: transparent; }
+
+.ldio-wd0tfznac7 > div:nth-child(3) div {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: rotate(45deg);
+}
+
+.ldio-wd0tfznac7 > div:nth-child(3) div:before,
+.ldio-wd0tfznac7 > div:nth-child(3) div:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 17.55px;
+  height: 17.55px;
+  top: -17.55px;
+  left: 46.8px;
+  background: #ff6f00; /* Orange dots */
+  border-radius: 50%;
+  box-shadow: 0 128.7px 0 0 #ff6f00; /* Orange dots */
+}
+
+.ldio-wd0tfznac7 > div:nth-child(3) div:after {
+  left: -17.55px;
+  top: 46.8px;
+  box-shadow: 128.7px 0 0 0 #ff6f00; /* Orange dots */
+}
+
+.ldio-wd0tfznac7 > div:nth-child(4) { border-color: transparent; }
+
+.ldio-wd0tfznac7 > div:nth-child(4) div {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: rotate(45deg);
+}
+
+.ldio-wd0tfznac7 > div:nth-child(4) div:before,
+.ldio-wd0tfznac7 > div:nth-child(4) div:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 17.55px;
+  height: 17.55px;
+  top: -17.55px;
+  left: 27.3px;
+  background: #e65c00; /* Darker orange dots */
+  border-radius: 50%;
+  box-shadow: 0 89.7px 0 0 #e65c00; /* Darker orange dots */
+}
+
+.ldio-wd0tfznac7 > div:nth-child(4) div:after {
+  left: -17.55px;
+  top: 27.3px;
+  box-shadow: 89.7px 0 0 0 #e65c00; /* Darker orange dots */
+}
