@@ -1,4 +1,4 @@
-const serverUrl = 'https://master3d.onrender.com'; // URL Render
+ const serverUrl = 'https://master3d.onrender.com'; // Backend URL
 
 // Function to show loading animation and overlay
 function showLoadingAnimation() {
@@ -12,9 +12,15 @@ function hideLoadingAnimation() {
   document.getElementById('loadingAnimation').classList.add('hidden');
 }
 
+// Function to handle errors and display alerts
+function handleError(error, message) {
+  console.error(message, error);
+  alert(message);
+}
+
 // Function to update order status
 function updateOrderStatus(orderId, newStatus) {
-  showLoadingAnimation(); // Show the overlay and spinner
+  showLoadingAnimation(); // Show loading animation
   fetch(`${serverUrl}/update-order`, {
     method: 'POST',
     headers: {
@@ -33,21 +39,20 @@ function updateOrderStatus(orderId, newStatus) {
       alert(`Commande ${orderId} mise à jour avec succès.`);
     })
     .catch(error => {
-      console.error('Erreur lors de la mise à jour de la commande :', error);
-      alert('Échec de la mise à jour de la commande.');
+      handleError(error, 'Échec de la mise à jour de la commande.');
     })
     .finally(() => {
-      hideLoadingAnimation(); // Hide the overlay and spinner
+      hideLoadingAnimation(); // Hide loading animation
     });
 }
 
-// Admin Space
+// Admin Space: Show login section
 document.getElementById('adminSpace').addEventListener('click', function () {
   document.getElementById('loginSection').classList.remove('hidden');
   document.getElementById('orderDetails').classList.add('hidden');
 });
 
-// Admin Login
+// Admin Login: Handle form submission
 document.getElementById('adminLoginForm').addEventListener('submit', function (event) {
   event.preventDefault();
   const adminPasswordInput = document.getElementById('adminPassword').value.trim();
@@ -56,15 +61,15 @@ document.getElementById('adminLoginForm').addEventListener('submit', function (e
     alert('Connexion réussie !');
     document.getElementById('loginSection').classList.add('hidden');
     document.getElementById('adminPanel').classList.remove('hidden');
-    loadAdminOrders();
+    loadAdminOrders(); // Load orders after successful login
   } else {
     alert('Mot de passe incorrect.');
   }
 });
 
-// Fetch Order Details
+// Fetch order details by order number
 function fetchOrderDetails(orderNumber) {
-  showLoadingAnimation(); // Show the overlay and spinner
+  showLoadingAnimation(); // Show loading animation
   fetch(`${serverUrl}/orders`)
     .then(response => {
       if (!response.ok) {
@@ -76,6 +81,7 @@ function fetchOrderDetails(orderNumber) {
       const order = data.orders.find(order => order.id === orderNumber);
 
       if (order) {
+        // Display order details
         document.getElementById('status').textContent = order.status;
         document.getElementById('printer').textContent = order.impression;
         document.getElementById('distributor').textContent = order.distribution;
@@ -89,15 +95,14 @@ function fetchOrderDetails(orderNumber) {
       }
     })
     .catch(error => {
-      console.error('Erreur lors du chargement des commandes :', error);
-      alert('Une erreur est survenue.');
+      handleError(error, 'Une erreur est survenue lors du chargement des commandes.');
     })
     .finally(() => {
-      hideLoadingAnimation(); // Hide the overlay and spinner
+      hideLoadingAnimation(); // Hide loading animation
     });
 }
 
-// Search Order
+// Search order: Handle form submission
 document.getElementById('orderForm').addEventListener('submit', function (event) {
   event.preventDefault();
   const orderNumber = document.getElementById('orderNumber').value.trim();
@@ -107,12 +112,12 @@ document.getElementById('orderForm').addEventListener('submit', function (event)
     return;
   }
 
-  fetchOrderDetails(orderNumber);
+  fetchOrderDetails(orderNumber); // Fetch order details
 });
 
-// Load Admin Orders
+// Load all orders for the admin panel
 function loadAdminOrders() {
-  showLoadingAnimation(); // Show the overlay and spinner
+  showLoadingAnimation(); // Show loading animation
   fetch(`${serverUrl}/orders`)
     .then(response => {
       if (!response.ok) {
@@ -124,6 +129,7 @@ function loadAdminOrders() {
       const tableBody = document.querySelector('#ordersTable tbody');
       tableBody.innerHTML = ''; // Clear existing data
 
+      // Populate the table with orders
       data.orders.forEach(order => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -144,7 +150,7 @@ function loadAdminOrders() {
           const row = event.target.closest('tr');
           const orderId = row.children[0].textContent.trim();
           const newStatus = event.target.textContent.trim();
-          updateOrderStatus(orderId, newStatus);
+          updateOrderStatus(orderId, newStatus); // Update order status
         }
       });
 
@@ -153,21 +159,20 @@ function loadAdminOrders() {
         if (event.target.classList.contains('deleteOrder')) {
           const orderId = event.target.getAttribute('data-id');
           if (confirm(`Êtes-vous sûr de vouloir supprimer la commande ${orderId} ?`)) {
-            deleteOrder(orderId);
+            deleteOrder(orderId); // Delete order
           }
         }
       });
     })
     .catch(error => {
-      console.error('Erreur lors du chargement des commandes :', error);
-      alert('Impossible de charger les commandes.');
+      handleError(error, 'Impossible de charger les commandes.');
     })
     .finally(() => {
-      hideLoadingAnimation(); // Hide the overlay and spinner
+      hideLoadingAnimation(); // Hide loading animation
     });
 }
 
-// Create Order
+// Create a new order: Handle form submission
 document.getElementById('createOrderForm').addEventListener('submit', function (event) {
   event.preventDefault();
   const status = document.getElementById('statusInput').value.trim();
@@ -176,7 +181,7 @@ document.getElementById('createOrderForm').addEventListener('submit', function (
   const destinataire = document.getElementById('destinataireInput').value.trim();
   const lienObjet = document.getElementById('lienObjetInput').value.trim();
 
-  showLoadingAnimation(); // Show the overlay and spinner
+  showLoadingAnimation(); // Show loading animation
   fetch(`${serverUrl}/orders`, {
     method: 'POST',
     headers: {
@@ -195,17 +200,16 @@ document.getElementById('createOrderForm').addEventListener('submit', function (
       loadAdminOrders(); // Reload orders
     })
     .catch(error => {
-      console.error('Erreur lors de la création de la commande :', error);
-      alert('Échec de la création de la commande.');
+      handleError(error, 'Échec de la création de la commande.');
     })
     .finally(() => {
-      hideLoadingAnimation(); // Hide the overlay and spinner
+      hideLoadingAnimation(); // Hide loading animation
     });
 });
 
-// Delete Order
+// Delete an order
 function deleteOrder(orderId) {
-  showLoadingAnimation(); // Show the overlay and spinner
+  showLoadingAnimation(); // Show loading animation
   fetch(`${serverUrl}/orders/${orderId}`, {
     method: 'DELETE',
   })
@@ -220,4 +224,9 @@ function deleteOrder(orderId) {
       loadAdminOrders(); // Reload orders
     })
     .catch(error => {
-      console.error('Erreur lors de la suppression de
+      handleError(error, 'Échec de la suppression de la commande.');
+    })
+    .finally(() => {
+      hideLoadingAnimation(); // Hide loading animation
+    });
+}
