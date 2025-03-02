@@ -1,0 +1,221 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa; /* Light gray background */
+}
+
+/* Header */
+header {
+  background: #ff6f00; /* Orange color */
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+/* Buttons */
+button {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #ff6f00; /* Orange color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #e65c00; /* Darker orange on hover */
+}
+
+/* Forms */
+form {
+  margin-bottom: 20px;
+}
+
+input[type="text"], input[type="password"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: calc(100% - 22px);
+}
+
+/* Hidden Elements */
+.hidden {
+  display: none;
+}
+
+/* Order Details Section */
+#orderDetails {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Login Section */
+#loginSection {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Admin Panel */
+#adminPanel {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #ff6f00; /* Orange color */
+  color: white;
+}
+
+td {
+  background-color: #f9f9f9;
+}
+
+td.editable {
+  background-color: #ffe0b2; /* Light orange for editable cells */
+  cursor: text;
+}
+
+td.editable:focus {
+  outline: none;
+  border: 2px solid #ff6f00; /* Orange border on focus */
+  background-color: #ffcc80; /* Lighter orange on focus */
+}
+
+/* Links */
+a {
+  color: #ff6f00; /* Orange color */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Buttons in Table Rows */
+table td button {
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #ff6f00; /* Orange color */
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+table td button:hover {
+  background-color: #e65c00; /* Darker orange on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  header h1 {
+    font-size: 20px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  input[type="text"], input[type="password"] {
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+}
+
+/* Overlay */
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  z-index: 1000; /* Ensure it's above other content */
+  display: none; /* Hidden by default */
+}
+
+#overlay.hidden {
+  display: none;
+}
+
+/* Loading Animation */
+#loadingAnimation {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the animation */
+  z-index: 1001; /* Above the overlay */
+  display: none; /* Hidden by default */
+}
+
+#loadingAnimation.hidden {
+  display: none;
+}
+
+/* Loading.io Animation Styles */
+.loadingio-spinner-double-ring-oot7eymf2wg {
+  width: 200px;
+  height: 200px;
+  display: inline-block;
+  overflow: hidden;
+  background: none; /* Remove the white background */
+}
+
+.ldio-wd0tfznac7 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(1);
+  backface-visibility: hidden;
+  transform-origin: 0 0;
+}
+
+.ldio-wd0tfznac7 div { box-sizing: content-box; }
+
+/* Add the rest of the loading.io CSS here */
