@@ -259,6 +259,11 @@ table td button:hover {
   animation: ldio-wd0tfznac7 1.5s linear infinite reverse;
 }
 
+/* Remove any extra rings */
+.ldio-wd0tfznac7 div:nth-child(n+3) {
+  display: none; /* Hide any additional rings */
+}
+
 @keyframes ldio-wd0tfznac7 {
   0% {
     transform: rotate(0);
@@ -266,13 +271,4 @@ table td button:hover {
   100% {
     transform: rotate(360deg);
   }
-}
-
-/* Overlay and Loading Animation Visibility */
-#overlay:not(.hidden) {
-  display: block;
-}
-
-#loadingAnimation:not(.hidden) {
-  display: block;
 }
