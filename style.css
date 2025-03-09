@@ -217,4 +217,62 @@ table td button:hover {
 
 .ldio-wd0tfznac7 div { box-sizing: content-box; }
 
-/* Add the rest of the loading.io CSS here */
+/* Loading.io Animation Styles */
+.loadingio-spinner-double-ring-oot7eymf2wg {
+  width: 200px;
+  height: 200px;
+  display: inline-block;
+  overflow: hidden;
+  background: none; /* Remove the white background */
+}
+
+.ldio-wd0tfznac7 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(1);
+  backface-visibility: hidden;
+  transform-origin: 0 0;
+}
+
+.ldio-wd0tfznac7 div { box-sizing: content-box; }
+
+/* Double Ring Animation */
+.ldio-wd0tfznac7 div {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  top: 20px;
+  left: 20px;
+  border-radius: 50%;
+  border: 8px solid #ff6f00; /* Orange color */
+  border-color: #ff6f00 transparent #ff6f00 transparent;
+  animation: ldio-wd0tfznac7 1.5s linear infinite;
+}
+
+.ldio-wd0tfznac7 div:nth-child(2) {
+  width: 140px;
+  height: 140px;
+  top: 30px;
+  left: 30px;
+  border-color: transparent #e65c00 transparent #e65c00; /* Darker orange */
+  animation: ldio-wd0tfznac7 1.5s linear infinite reverse;
+}
+
+@keyframes ldio-wd0tfznac7 {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Overlay and Loading Animation Visibility */
+#overlay:not(.hidden) {
+  display: block;
+}
+
+#loadingAnimation:not(.hidden) {
+  display: block;
+}
