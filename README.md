@@ -9,6 +9,6 @@
 
 # Master 3D Admin Sys
 
-This is the base code for our order management system.
+This is the base code for our order management system (V2/F).
 
 </footer>
