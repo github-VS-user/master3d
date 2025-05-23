@@ -1,12 +1,10 @@
-{
-  "orders": [
-    {
-      "id": "002",
-      "status": "En Attente",
-      "impression": "Dario",
-      "distribution": "Oscar",
-      "destinataire": "Jean Dupont",
-      "lienObjet": "https://example.com/objet-imprimer"
-    }
-  ]
-}
+[
+  {
+    "id": "001",
+    "status": "En Attente",
+    "impression": "Dario",
+    "distribution": "Oscar",
+    "destinataire": "Jean Dupont",
+    "lienObjet": "https://example.com/objet-imprimer"
+  }
+]
